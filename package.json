@@ -4,7 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest --coverage",
+    "lint": "eslint .",
+    "seed": "node ./seeds/seed.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/franromlob/EMPRESA_DE_EVENTOS/issues"
   },
-  "homepage": "https://github.com/franromlob/EMPRESA_DE_EVENTOS#readme"
+  "homepage": "https://github.com/franromlob/EMPRESA_DE_EVENTOS#readme",
+  "dependencies": {
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.3",
+    "nodemon": "^3.1.0"
+  }
 }

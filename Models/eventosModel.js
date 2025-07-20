@@ -1,33 +1,12 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  name: { type: String, require: true },
-  lastName: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
+// Model Event
 const eventSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
     trim: true,
-    maxlenght: [100, "El título no puede superar los 50 caracteres"],
+    maxlength: [100, "El título no puede superar los 50 caracteres"],
   },
   description: {
     type: String,
@@ -49,14 +28,12 @@ const eventSchema = mongoose.Schema({
     min: [0, "El precio no puede ser negativo"],
   },
   attendees: {
-    type: userSchema.Types.Object,
-    ref: User,
-    required: false,
+    type: userSchema.Types.ObjectId,
+    ref: "User",
   },
 });
 
 // Creamos el modelo
-const User = mongoose.model("User", userSchema);
-const Event = mongoose.model("User", eventSchema);
+const Event = mongoose.model("Event", eventSchema);
 
-module.exports = User;
+module.exports = { Event };
