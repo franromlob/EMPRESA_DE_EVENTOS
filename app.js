@@ -1,9 +1,12 @@
-require("dotenv").config();
-
+/** Acceso al fichero '.env' */
+/** Importación de 'Mongoose' */
 const mongoose = require("mongoose");
 
 // Importamos el módulo Express
 const express = require("express");
+
+const userRouter = require("./Router/userRouter");
+const eventRouter = require("./Router/eventRouter");
 
 // Crea una instancia de Express para poder acceder a todas las funcionalidades
 // que nos proporciona 'express'
@@ -17,13 +20,14 @@ app.use(express.json());
  */
 require("dotenv").config();
 
-/** Recuperamos al url de conexión de mongodb del fichero env */
+/** Recuperamos al url de conexión de mongodb del fichero '.env' */
 const url_mongodb = process.env.DATABASE_URL_DEV;
 const PORT = process.env.PORT;
 
 // Conectar a MongoDB usando async/await
 async function connectDB() {
   try {
+    /** Le indicamos a mongoose a qué url debe conectarse */
     await mongoose.connect(url_mongodb);
     console.log("✅ MongoDB se ha conectado exitosamente");
   } catch (error) {
@@ -35,18 +39,25 @@ async function connectDB() {
 // Llama a la función de conexión
 connectDB();
 
-// Escucha los eventos de conexión/desconexión/error de MongoDB
-mongoose.connection.on("disconnected", () => {
+/** Realizamos la conexión con mongoose */
+const db = mongoose.connection;
+
+// Escucha los eventos de conexión-desconexión-error de MongoDB
+db.on("disconnected", () => {
   console.log("🔌 MongoDB se ha desconectado");
 });
 
-mongoose.connection.on("error", (err) => {
+db.on("error", (err) => {
   console.error("💥 Error en la conexión de MongoDB:", err.message);
 });
 
-mongoose.connection.on("reconnected", () => {
+db.on("reconnected", () => {
   console.log("🔄 MongoDB se ha reconectado");
 });
+
+/** Esta sería la configuración inicial */
+app.use("/users", userRouter);
+app.use("/events", eventRouter);
 
 // --- Iniciar el Servidor ---
 

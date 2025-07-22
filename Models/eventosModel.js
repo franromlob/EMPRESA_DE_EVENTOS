@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Model Event
-const eventSchema = mongoose.Schema({
+const eventSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -28,12 +28,12 @@ const eventSchema = mongoose.Schema({
     min: [0, "El precio no puede ser negativo"],
   },
   attendees: {
-    type: userSchema.Types.ObjectId,
-    ref: "User",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User" /** Referencia al modelo de usuario */,
   },
 });
 
 // Creamos el modelo
-const Event = mongoose.model("Event", eventSchema);
+const Event = mongoose.model("Event", eventSchema, "Events");
 
 module.exports = { Event };

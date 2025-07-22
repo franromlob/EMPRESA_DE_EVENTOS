@@ -1,10 +1,11 @@
+/** Importamos mongoose para poder utilizarlo en el fichero y Schema */
 const mongoose = require("mongoose");
 
 // Model Usuario
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true /** Campo requerido */,
   },
   lastName: {
     type: String,
@@ -15,7 +16,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true,
+    unique: true /** Asegura que cada correo electrónico sea único en la bbdd */,
     lowercase: true,
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ /** REGEX */,
@@ -25,15 +26,15 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlenght: [8, "La contraseña tiene que tener al menos 8 caracteres"],
+    minlength: [8, "La contraseña tiene que tener al menos 8 caracteres"],
   },
   createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now /** Asigna la fecha actual como valor por defecto */,
   },
 });
 
 // Creamos el Modelo
-const User = mongoose.model("userSchema", "user");
+const User = mongoose.model("User", userSchema, "Users");
 
 module.exports = { User };
